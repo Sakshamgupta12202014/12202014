@@ -1,22 +1,86 @@
-import React, { useState } from "react";
-import "./UrlShortner.css"
-import axios from "axios"
+import React, { useEffect, useRef, useState } from "react";
+import "./UrlShortner.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function UrlShortner() {
   const [longUrl, setLongUrl] = useState("");
-  const [shortUrl, setShortUrl] = useState([]);
+  const [shortUrl, setShortUrl] = useState("");
+  const [shortId, setShortId] = useState("");
+  const [views, setViews] = useState(1);
+  const [result, setResult] = useState("");
+
+  const [allUrls, setAllUrls] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getAllUrls = async () => {
+      await axios
+        .get("/api/urls")
+        .then((response) => {
+          setAllUrls(response.data.allUrls);
+          toast.info("You are not authorised to view urls");
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error("API Error: cannot fetch All Urls");
+        });
+    };
+
+    getAllUrls();
+  }, [shortId]);
+
+  const shortUrlRef = useRef(null);
 
   const shortenUrl = async () => {
-    await axios
-      .post("https://cleanuri.com/api/v1/shorten", { url: longUrl })
-      .then((response) => {
-        console.log(response.data);
-        setShortUrl((prevUrls) => [...prevUrls, response.data.result_url]);
-      })
-      .catch((error) => {
-        console.log("Cannot Fetch Short URL: ", error);
-      });
+    try {
+      if (longUrl !== "") {
+        const response = await axios.post("/api/url", { url: longUrl });
+        if (response.data.shortId) {
+          const id = response.data.shortId;
+          console.log(response.data.shortId);
+          setShortId(response.data.shortId);
+
+          setShortUrl(response.data.shortUrl);
+
+          const getViews = await axios.get(`api/url/analytics/${id}`);
+          if (getViews.data.numOfClicks) {
+            console.log(getViews.data.numOfClicks);
+            setViews(getViews.data.numOfClicks);
+          } else if (getViews.data.authenticated === false) {
+            toast.warning("You are not authorised to view analytics");
+            navigate("/login");
+          }
+        } else if (response.data.authenticated === false) {
+          console.log("you cannot use the service as you are not authorised");
+          toast.info("You are not authorised, please login...");
+          navigate("/login");
+        }
+
+        setLongUrl("");
+      } else {
+        toast.warning("Please enter a url");
+      }
+    } catch (error) {
+      console.error("Error in sending longUrl to the backend:", error);
+      toast.error("Failed to shorten URL");
+    }
   };
+
+  const copyShortUrl = () => {
+    const range = document.createRange();
+    const textNode = shortUrlRef.current.firstChild; // Text inside <p>
+
+    range.setStart(textNode, 0); // Start at character 5
+    range.setEnd(textNode, 30); // End at character 12
+
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    navigator.clipboard.writeText(selection);
+  };
+
   return (
     <div className="url-shortner-div">
       <h1>URL Shortner page</h1>
@@ -27,15 +91,55 @@ function UrlShortner() {
         placeholder="Type long url here..."
       />
       <button onClick={shortenUrl}>Short URL</button>
+      {shortId && (
+        <div>
+          <p style={{ color: "white" }} ref={shortUrlRef}>
+            {shortUrl}
+          </p>
+          <button
+            onClick={copyShortUrl}
+            style={{
+              backgroundColor: "blue",
+              color: "white",
+              padding: "4px",
+              borderRadius: "5px",
+              outline: "none",
+              border: "none",
+              cursor: "pointer",
+            }}
+          >
+            copy
+          </button>
+          <p>Views : {views}</p>
+        </div>
+      )}
+      {/* {result && <p>{result}</p>} */}
 
-      <div className="short-urls">
-        {shortUrl.length > 0 &&
-          shortUrl.map((url) => {
-            return <div key={url} className="short-url">{url}</div>;
+      {allUrls && (
+        <div className="all-urls">
+          {allUrls.map((url) => {
+            return (
+              <div key={url.shortId} className="url-item">
+                <p className="url-short-id">{url.shortId}</p>
+                <p className="url-redirect">{url.redirectURL}</p>
+              </div>
+            );
           })}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
 
 export default UrlShortner;
+
+// axios.post('/api/route', {
+//   key1: 'value1',
+//   key2: 'value2'
+// })
+// .then(response => {
+//   console.log(response.data);
+// })
+// .catch(error => {
+//   console.error(error);
+// });

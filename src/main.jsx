@@ -1,11 +1,50 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import React from "react";
 import "./index.css";
-import App from "./App.jsx";
+import Login from "./components/Login.jsx";
+import Signup from "./components/SignUp.jsx";
+import Home from "./components/Home.jsx";
+import Layout from "./components/Layout.jsx";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+import UrlShortner from "./UrlShortner.jsx";
+
+import { ToastContainer } from "react-toastify";
+import "./styles/ReactToastify.css";
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Layout />}>
+      <Route path="" element={<Home />} />
+      <Route path="urlshortener" element={<UrlShortner />} />
+      <Route path="login" element={<Login />} />
+      <Route path="signup" element={<Signup />} />
+    </Route>
+  )
+);
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
+  <React.StrictMode>
+    <RouterProvider router={router} />
+    <ToastContainer
+      position="top-right"
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick={false}
+      rtl={false}
+      pauseOnFocusLoss={false}
+      draggable
+      pauseOnHover={false}
+      theme="colored"
+      // transition={Bounce}
+      progressClassName="toastProgress"
+      bodyClassName="toastBody"
+    />
+  </React.StrictMode>
 );
 

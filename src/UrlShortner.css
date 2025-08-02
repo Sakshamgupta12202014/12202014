@@ -34,8 +34,8 @@ input {
   background-color: #dff0d8;
 }
 
-.short-url:hover{
-      background-color: #c8e5bc;
+.short-url:hover {
+  background-color: #c8e5bc;
 }
 
 button {
@@ -48,9 +48,37 @@ button {
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  width : 50%;
+  width: 50%;
 }
 
 button:hover {
   background-color: #096b57;
+}
+
+.all-urls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+  max-width: 600px;
+}
+
+.url-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.url-short-id {
+  font-weight: bold;
+  color: black;
+}
+
+.url-redirect {
+  color: rgb(10, 91, 222);
+  font-weight: bold;
+  overflow: hidden;
 }
