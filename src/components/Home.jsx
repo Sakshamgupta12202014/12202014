@@ -11,6 +11,7 @@ export default function Home() {
   const [message, setMessage] = useState("");
   const [btnTxt, setBtnTxt] = useState("");
   const [service, setService] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,11 +21,13 @@ export default function Home() {
         .then((response) => {
           if (response.data.authenticated === false) {
             console.log("User not authorised");
+            setShowSignup(true);
             setService(false);
             setBtnTxt("Login");
           } else {
             setMessage(response.data.user);
             setService(true);
+            setShowSignup(false);
             setBtnTxt("Logout");
           }
         })
@@ -69,6 +72,11 @@ export default function Home() {
           </Link>
         )}
         {btnTxt && <button onClick={handleBtnClick}>{btnTxt}</button>}
+        {showSignup && (
+          <Link to="/signup">
+            <button>Register</button>
+          </Link>
+        )}
       </div>
     </div>
   );
