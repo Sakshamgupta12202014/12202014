@@ -1,3 +1,6 @@
+# See the website open in browser 
+Visit ---> https://url-shortener-frontend-xwl3.onrender.com/
+
 # React + Vite
 # Tech stacks used
 
