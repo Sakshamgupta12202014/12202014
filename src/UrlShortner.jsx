@@ -19,12 +19,11 @@ function UrlShortner() {
   useEffect(() => {
     const getAllUrls = async () => {
       await axios
-        .get(`${baseURL}/api/urls`)
+        .get(`${baseURL}/api/urls`, { withCredentials: true })
         .then((response) => {
-          if(response.data.authenticated === false)
+          if (response.data.authenticated === false)
             toast.info("You are not authorised to view urls");
-          else
-            setAllUrls(response.data.allUrls);
+          else setAllUrls(response.data.allUrls);
         })
         .catch((error) => {
           console.log(error);
@@ -40,7 +39,9 @@ function UrlShortner() {
   const shortenUrl = async () => {
     try {
       if (longUrl.trim() !== "") {
-        const response = await axios.post(`${baseURL}/api/url`, { url: longUrl });
+        const response = await axios.post(`${baseURL}/api/url`, {
+          url: longUrl,
+        });
         if (response.data.shortId) {
           const id = response.data.shortId;
           console.log(response.data.shortId);
@@ -48,7 +49,9 @@ function UrlShortner() {
 
           setShortUrl(response.data.shortUrl);
 
-          const getViews = await axios.get(`${baseURL}/api/url/analytics/${id}`);
+          const getViews = await axios.get(
+            `${baseURL}/api/url/analytics/${id}`
+          );
           if (getViews.data.numOfClicks) {
             console.log(getViews.data.numOfClicks);
             setViews(getViews.data.numOfClicks);
