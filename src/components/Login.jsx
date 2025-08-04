@@ -17,10 +17,14 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`${baseURL}/api/user/login`, {
-        email: email,
-        password: password,
-      });
+      const response = await axios.post(
+        `${baseURL}/api/user/login`,
+        {
+          email: email,
+          password: password,
+        },
+        { withCredentials: true }
+      );
       if (response.data.authenticated) {
         toast.success(response.data.msg);
         navigate("/");
