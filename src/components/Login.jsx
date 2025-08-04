@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const loginUser = async (e) => {
@@ -21,22 +20,17 @@ export default function Login() {
         password: password,
       });
       if (response.data.authenticated) {
-        console.log("You are successfully logged in");
-        toast.success("logged in successfully..");
-        navigate("/urlshortener");
+        toast.success(response.data.msg);
+        navigate("/");
       } else {
-        console.log("Login Error: ");
-        // setError(response.data.error || "Login failed. Please try again.");
-        toast.error("Invalid credentials...");
+        toast.error(response.data.msg);
         navigate("/login");
       }
     } catch (error) {
-      console.error("Login failed:", error);
       toast.error(
         "API Error: " +
-          (error.response?.data?.error || "Login failed. Please try again.")
+          (error.response?.data?.error || "Login failed. Please try again")
       );
-      navigate("/login");
     }
   };
 
@@ -63,7 +57,6 @@ export default function Login() {
           required
         />
         <button type="submit">Login</button>
-        {/* {error && <div style={{ color: "red" }}>{error}</div>} */}
       </form>
     </div>
   );

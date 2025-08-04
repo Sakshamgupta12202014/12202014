@@ -1,25 +1,28 @@
 // src/pages/Home.jsx
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "../styles/Home.css";
+import { toast } from "react-toastify";
 
 export default function Home() {
   const [message, setMessage] = useState("");
   const [btnTxt, setBtnTxt] = useState("");
+  const [service, setService] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getAllUrls = async () => {
+    const fetchCurrentUser = async () => {
       await axios
-        .get("/api/urls")
+        .get("/api/user/fetchCurrentUser", { withCredentials: true })
         .then((response) => {
           if (response.data.authenticated === false) {
             console.log("User not authorised");
-            setMessage("You are not logged in");
+            setService(false);
             setBtnTxt("Login");
           } else {
-            setMessage(response.data.email);
+            setMessage(response.data.user);
+            setService(true);
             setBtnTxt("Logout");
           }
         })
@@ -28,28 +31,27 @@ export default function Home() {
         });
     };
 
-    getAllUrls();
-  }, []);
+    fetchCurrentUser();
+  }, [btnTxt]);
 
   const handleBtnClick = async (e) => {
     const btn = e.target.innerText;
 
     if (btn === "Login") {
       navigate("/login");
-    } else if (btn === "Logout") {
+    } else {
       try {
         const response = await axios.get("/api/user/logout", {
           withCredentials: true,
         });
 
-        if (response.data.logout) {
-          console.log("Successfully logged out");
-          navigate("/login");
-        } else {
-          console.log("Cannot login");
+        if (response.data.msg) {
+          toast.info(response.data.msg);
+          setMessage("You are not logged in ");
+          setBtnTxt("Login");
         }
       } catch (error) {
-        console.log("Logout API Error");
+        toast.error("Logout API Error..");
       }
     }
   };
@@ -59,6 +61,11 @@ export default function Home() {
       <div className="home-box">
         <h2>Home Page</h2>
         <p>{message}</p>
+        {service && (
+          <Link to="/urlshortener">
+            <button>Short your URL</button>
+          </Link>
+        )}
         {btnTxt && <button onClick={handleBtnClick}>{btnTxt}</button>}
       </div>
     </div>

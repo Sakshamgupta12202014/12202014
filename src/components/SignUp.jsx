@@ -15,15 +15,12 @@ export default function Signup() {
     try {
       const response = await axios.post("/api/user/signup", form);
       if (response.data.authenticated) {
-        console.log("SignUp successfull");
-        toast.success("Registration Successfull");
+        toast.success(response.data.msg);
         navigate("/login");
       } else {
-        console.log("SignUp Error: ");
-        toast.error("Invalid details");
+        toast.error(response.data.msg);
       }
     } catch (error) {
-      console.log("Error: User Sign up");
       toast.error("API Error: User Sign up");
     }
   };

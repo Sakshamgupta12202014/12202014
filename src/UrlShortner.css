@@ -38,7 +38,7 @@ input {
   background-color: #c8e5bc;
 }
 
-button {
+.url-shortner-div button {
   background-color: #1abc9c;
   color: white;
   border: none;
@@ -51,7 +51,7 @@ button {
   width: 50%;
 }
 
-button:hover {
+.url-shortner-div button:hover {
   background-color: #096b57;
 }
 

@@ -19,8 +19,10 @@ function UrlShortner() {
       await axios
         .get("/api/urls")
         .then((response) => {
-          setAllUrls(response.data.allUrls);
-          toast.info("You are not authorised to view urls");
+          if(response.data.authenticated === false)
+            toast.info("You are not authorised to view urls");
+          else
+            setAllUrls(response.data.allUrls);
         })
         .catch((error) => {
           console.log(error);
