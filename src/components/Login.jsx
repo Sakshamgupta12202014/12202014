@@ -6,6 +6,8 @@ import "../styles/AuthForm.css";
 
 import { toast } from "react-toastify";
 
+const baseURL = import.meta.env.VITE_BACKEND_URL;
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +17,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("/api/user/login", {
+      const response = await axios.post(`${baseURL}/api/user/login`, {
         email: email,
         password: password,
       });

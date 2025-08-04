@@ -5,6 +5,8 @@ import axios from "axios";
 import "../styles/Home.css";
 import { toast } from "react-toastify";
 
+const baseURL = import.meta.env.VITE_BACKEND_URL;
+
 export default function Home() {
   const [message, setMessage] = useState("");
   const [btnTxt, setBtnTxt] = useState("");
@@ -14,7 +16,7 @@ export default function Home() {
   useEffect(() => {
     const fetchCurrentUser = async () => {
       await axios
-        .get("/api/user/fetchCurrentUser", { withCredentials: true })
+        .get(`${baseURL}/api/user/fetchCurrentUser`, { withCredentials: true })
         .then((response) => {
           if (response.data.authenticated === false) {
             console.log("User not authorised");
@@ -41,7 +43,7 @@ export default function Home() {
       navigate("/login");
     } else {
       try {
-        const response = await axios.get("/api/user/logout", {
+        const response = await axios.get(`${baseURL}/api/user/logout`, {
           withCredentials: true,
         });
 

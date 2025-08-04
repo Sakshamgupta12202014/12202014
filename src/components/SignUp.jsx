@@ -6,6 +6,9 @@ import "../styles/AuthForm.css";
 
 import { toast } from "react-toastify";
 
+const baseURL = import.meta.env.VITE_BACKEND_URL;
+
+
 export default function Signup() {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const navigate = useNavigate();
@@ -13,7 +16,7 @@ export default function Signup() {
   const signupUser = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/user/signup", form);
+      const response = await axios.post(`${baseURL}/api/user/signup`, form);
       if (response.data.authenticated) {
         toast.success(response.data.msg);
         navigate("/login");

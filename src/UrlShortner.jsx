@@ -4,6 +4,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+const baseURL = import.meta.env.VITE_BACKEND_URL;
+
 function UrlShortner() {
   const [longUrl, setLongUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
@@ -17,7 +19,7 @@ function UrlShortner() {
   useEffect(() => {
     const getAllUrls = async () => {
       await axios
-        .get("/api/urls")
+        .get(`${baseURL}/api/urls`)
         .then((response) => {
           if(response.data.authenticated === false)
             toast.info("You are not authorised to view urls");
@@ -37,8 +39,8 @@ function UrlShortner() {
 
   const shortenUrl = async () => {
     try {
-      if (longUrl !== "") {
-        const response = await axios.post("/api/url", { url: longUrl });
+      if (longUrl.trim() !== "") {
+        const response = await axios.post(`${baseURL}/api/url`, { url: longUrl });
         if (response.data.shortId) {
           const id = response.data.shortId;
           console.log(response.data.shortId);
@@ -46,7 +48,7 @@ function UrlShortner() {
 
           setShortUrl(response.data.shortUrl);
 
-          const getViews = await axios.get(`api/url/analytics/${id}`);
+          const getViews = await axios.get(`${baseURL}/api/url/analytics/${id}`);
           if (getViews.data.numOfClicks) {
             console.log(getViews.data.numOfClicks);
             setViews(getViews.data.numOfClicks);
