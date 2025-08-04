@@ -39,9 +39,13 @@ function UrlShortner() {
   const shortenUrl = async () => {
     try {
       if (longUrl.trim() !== "") {
-        const response = await axios.post(`${baseURL}/api/url`, {
-          url: longUrl,
-        });
+        const response = await axios.post(
+          `${baseURL}/api/url`,
+          {
+            url: longUrl,
+          },
+          { withCredentials: true } // include cookies from browser 
+        );
         if (response.data.shortId) {
           const id = response.data.shortId;
           console.log(response.data.shortId);
@@ -50,7 +54,8 @@ function UrlShortner() {
           setShortUrl(response.data.shortUrl);
 
           const getViews = await axios.get(
-            `${baseURL}/api/url/analytics/${id}`
+            `${baseURL}/api/url/analytics/${id}`,
+            { withCredentials: true }
           );
           if (getViews.data.numOfClicks) {
             console.log(getViews.data.numOfClicks);
