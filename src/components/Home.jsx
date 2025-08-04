@@ -5,6 +5,9 @@ import axios from "axios";
 import "../styles/Home.css";
 import { toast } from "react-toastify";
 
+import { useSelector, useDispatch } from "react-redux";
+import { login, logout } from "../store/userSlice.js";
+
 const baseURL = import.meta.env.VITE_BACKEND_URL;
 
 export default function Home() {
@@ -13,6 +16,8 @@ export default function Home() {
   const [service, setService] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -29,6 +34,9 @@ export default function Home() {
             setService(true);
             setShowSignup(false);
             setBtnTxt("Logout");
+            dispatch(
+              login({ user: response.data.user, urls: response.data.urls })
+            );
           }
         })
         .catch((error) => {
@@ -53,6 +61,7 @@ export default function Home() {
         if (response.data.msg) {
           toast.info(response.data.msg);
           setMessage("You are not logged in ");
+          dispatch(logout());
           setBtnTxt("Login");
         }
       } catch (error) {

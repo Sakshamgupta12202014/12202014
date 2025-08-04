@@ -8,10 +8,15 @@ import { toast } from "react-toastify";
 
 const baseURL = import.meta.env.VITE_BACKEND_URL;
 
+import { login } from "../store/userSlice.js";
+import { useSelector, useDispatch } from "react-redux";
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const loginUser = async (e) => {
     e.preventDefault();

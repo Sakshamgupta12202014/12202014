@@ -1,30 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, NavLink } from "react-router-dom";
-import "./Header.css"
+import "./Header.css";
+import { useSelector, useDispatch } from "react-redux";
 
 const baseURL = import.meta.env.VITE_BACKEND_URL;
 
 function Header() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-      await axios
-        .get(`${baseURL}/api/user/fetchCurrentUser`, { withCredentials: true })
-        .then((response) => {
-          if (response.data.authenticated === false) {
-            setIsAuthenticated(false);
-          } else {
-            setIsAuthenticated(true);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
 
-    fetchCurrentUser();
-  }, [isAuthenticated]);
+  const isAuthenticated = useSelector((state) => state.isAuthenticated);
 
   const navItems = [
     { name: "Home", path: "/", isAuth: true },
