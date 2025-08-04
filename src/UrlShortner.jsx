@@ -105,7 +105,7 @@ function UrlShortner() {
       <button onClick={shortenUrl}>Short URL</button>
       {shortId && (
         <div>
-          <p style={{ color: "white" }} ref={shortUrlRef}>
+          <p style={{ color: "black" }} ref={shortUrlRef}>
             {shortUrl}
           </p>
           <button
