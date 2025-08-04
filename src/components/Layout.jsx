@@ -1,12 +1,17 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Header from "./Header/Header";
+import "../styles/Layout.css"
 
 function Layout() {
   return (
     <div>
-      <Outlet />
+      <Header />
+      <div className="main-content">
+        <Outlet />
+      </div>
     </div>
-  )
+  );
 }
 
-export default Layout
+export default Layout;

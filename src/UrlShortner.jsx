@@ -11,7 +11,6 @@ function UrlShortner() {
   const [shortUrl, setShortUrl] = useState("");
   const [shortId, setShortId] = useState("");
   const [views, setViews] = useState(1);
-  const [result, setResult] = useState("");
 
   const [allUrls, setAllUrls] = useState([]);
   const navigate = useNavigate();
@@ -80,12 +79,12 @@ function UrlShortner() {
     }
   };
 
-  const copyShortUrl = () => {
+  const copyShortUrl = (length) => {
     const range = document.createRange();
     const textNode = shortUrlRef.current.firstChild; // Text inside <p>
 
     range.setStart(textNode, 0); // Start at character 5
-    range.setEnd(textNode, 30); // End at character 12
+    range.setEnd(textNode, length); // End at character 12
 
     const selection = window.getSelection();
     selection.removeAllRanges();
@@ -109,7 +108,7 @@ function UrlShortner() {
             {shortUrl}
           </p>
           <button
-            onClick={copyShortUrl}
+            onClick={() => copyShortUrl(shortUrl.length)}
             style={{
               backgroundColor: "blue",
               color: "white",
