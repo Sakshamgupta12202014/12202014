@@ -30,7 +30,7 @@ export default function Home() {
             setService(false);
             setBtnTxt("Login");
           } else {
-            setMessage(response.data.user);
+            setMessage(response.data.user.name);
             setService(true);
             setShowSignup(false);
             setBtnTxt("Logout");
