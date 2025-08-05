@@ -80,5 +80,5 @@ input {
 .url-redirect {
   color: rgb(10, 91, 222);
   font-weight: bold;
-  overflow: hidden;
+  overflow: scroll;
 }
