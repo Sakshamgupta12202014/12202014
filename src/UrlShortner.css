@@ -1,4 +1,4 @@
-.url-shortner-div {
+/* .url-shortner-div {
   display: flex;
   flex-direction: column;
   margin: 50px auto;
@@ -81,4 +81,165 @@ input {
   color: rgb(10, 91, 222);
   font-weight: bold;
   overflow: hidden;
+} */
+
+/* Base styles */
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(to right, #141e30, #243b55);
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+/* Main container */
+.url-shortner-div {
+  max-width: 700px;
+  margin: 4rem auto;
+  padding: 2.5rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Heading */
+.url-shortner-div h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #ffffff;
+}
+
+/* Input */
+.url-shortner-div input[type="text"] {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.url-shortner-div input[type="text"]::placeholder {
+  color: #ccc;
+}
+
+.url-shortner-div input[type="text"]:focus {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Shorten button */
+.url-shortner-div button {
+  padding: 0.9rem 1.8rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background: linear-gradient(to right, #00c6ff, #0072ff);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.url-shortner-div button:hover {
+  background: linear-gradient(to right, #0072ff, #00c6ff);
+}
+
+/* Short URL display */
+.url-shortner-div > div > p {
+  font-size: 1.1rem;
+  color: #ffffff;
+  margin-top: 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+/* Copy button */
+.url-shortner-div > div > button {
+  margin-top: 0.5rem;
+  background-color: #ff5e62;
+  background-image: linear-gradient(to right, #ff9966, #ff5e62);
+  color: white;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.url-shortner-div > div > button:hover {
+  background-image: linear-gradient(to right, #ff5e62, #ff9966);
+}
+
+/* Views */
+.url-shortner-div > div > p:last-child {
+  margin-top: 0.5rem;
+  color: #ccc;
+  font-size: 0.95rem;
+}
+
+/* All URLs list */
+.all-urls {
+  margin-top: 2rem;
+  max-height: 300px;
+  overflow-y: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1rem;
+}
+
+/* Each URL item */
+.url-item {
+  background-color: rgba(255, 255, 255, 0.08);
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: left;
+  word-wrap: break-word;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.url-short-id {
+  font-weight: bold;
+  color: #03dac6;
+  font-size: 1.05rem;
+}
+
+.url-redirect {
+  font-size: 0.9rem;
+  color: #ddd;
+  margin-top: 0.3rem;
+}
+
+/* Scrollbar styling */
+.all-urls::-webkit-scrollbar {
+  width: 8px;
+}
+
+.all-urls::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .url-shortner-div {
+    padding: 2rem 1.5rem;
+  }
+
+  .url-shortner-div h1 {
+    font-size: 2rem;
+  }
+
+  .url-shortner-div button {
+    width: 100%;
+    margin-top: 1rem;
+  }
 }
