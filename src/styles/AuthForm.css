@@ -51,3 +51,34 @@
 .auth-form button:hover {
   background-color: #5a67d8;
 }
+
+.password-div {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;         /* match email input border */
+  border-radius: 8px;             /* match email input radius */
+  height: 40px;                   /* same height as email input */
+  transition: border 0.3s ease;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  width: 379px;
+  padding-right: 10px;
+}
+
+.password-div:focus-within {
+  border-color: #667eea;          /* highlight on focus like input */
+}
+
+.password-div input {
+  border: none;
+  outline: none;
+  width: 100%;
+  background: transparent;
+  font-size: 1rem;
+  margin: auto;
+}
+
+.password-div .visibility {
+  cursor: pointer;
+  flex-shrink: 0;                 /* prevent icon from shrinking */
+}

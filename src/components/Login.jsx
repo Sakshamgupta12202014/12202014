@@ -1,5 +1,5 @@
 // src/pages/Login.jsx
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/AuthForm.css";
@@ -11,7 +11,13 @@ const baseURL = import.meta.env.VITE_BACKEND_URL;
 import { login } from "../store/userSlice.js";
 import { useSelector, useDispatch } from "react-redux";
 
+import closedEye from "./closed-eye.png";
+import openEye from "./open-eye.png";
+
 export default function Login() {
+  const [eye, setEye] = useState("close");
+  const [type, setType] = useState("password");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -45,6 +51,17 @@ export default function Login() {
     }
   };
 
+  const handlePasswordVisibility = (e) => {
+    if (eye === "open") {
+      setEye("close");
+    } else {
+      setEye("open");
+    }
+
+    setType(type === "password" ? "text" : "password");
+    return true;
+  };
+
   return (
     <div className="auth-container">
       <form onSubmit={loginUser} className="auth-form">
@@ -58,15 +75,25 @@ export default function Login() {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <input
-          placeholder="Password"
-          value={password}
-          name="password"
-          autoComplete="password"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <div className="password-div">
+          <input
+            placeholder="Password"
+            value={password}
+            name="password"
+            autoComplete="password"
+            type={type}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <img
+            className="visibility"
+            src={eye === "open" ? openEye : closedEye}
+            alt={eye === "close" ? "view" : "hide"}
+            width="25px"
+            height="25px"
+            onClick={(e) => handlePasswordVisibility(e)}
+          />
+        </div>
         <button type="submit">Login</button>
       </form>
     </div>
