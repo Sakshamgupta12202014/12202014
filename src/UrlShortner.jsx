@@ -4,6 +4,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import { useSelector, useDispatch } from "react-redux";
+import { login, logout } from "../store/userSlice.js";
+
 const baseURL = import.meta.env.VITE_BACKEND_URL;
 
 function UrlShortner() {
@@ -14,6 +17,29 @@ function UrlShortner() {
 
   const [allUrls, setAllUrls] = useState([]);
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      await axios
+        .get(`${baseURL}/api/user/fetchCurrentUser`, { withCredentials: true })
+        .then((response) => {
+          if (response.data.authenticated === false) {
+            return null;
+          } else {
+            dispatch(
+              login({ user: response.data.user, urls: response.data.urls })
+            );
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+
+    fetchCurrentUser();
+  }, []);
 
   useEffect(() => {
     const getAllUrls = async () => {
@@ -43,7 +69,7 @@ function UrlShortner() {
           {
             url: longUrl,
           },
-          { withCredentials: true } // include cookies from browser 
+          { withCredentials: true } // include cookies from browser
         );
         if (response.data.shortId) {
           const id = response.data.shortId;
