@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { useSelector, useDispatch } from "react-redux";
-import { login, logout } from "../store/userSlice.js";
+import { login, logout } from "./store/userSlice.js";
 
 const baseURL = import.meta.env.VITE_BACKEND_URL;
 
