@@ -74,7 +74,7 @@ function UserProfile() {
       <h1>User Profile</h1>
 
       <img className="user-avatar" src={downloadURL} alt="User Avatar" />
-      {!img && (
+
         <form onSubmit={handleSubmit}>
           <input
             type="file"
@@ -83,7 +83,6 @@ function UserProfile() {
           />
           <button type="submit">Upload</button>
         </form>
-      )}
     </div>
   );
 }
