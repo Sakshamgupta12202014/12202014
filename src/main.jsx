@@ -16,9 +16,10 @@ import UrlShortner from "./UrlShortner.jsx";
 import { ToastContainer } from "react-toastify";
 import "./styles/ReactToastify.css";
 
-// using redux store 
+// using redux store
 import { Provider } from "react-redux";
 import store from "./store/store.js";
+import UserProfile from "./components/user-profile/UserProfile.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,6 +28,7 @@ const router = createBrowserRouter(
       <Route path="urlshortener" element={<UrlShortner />} />
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
+      <Route path="profile" element={<UserProfile />} />
     </Route>
   )
 );

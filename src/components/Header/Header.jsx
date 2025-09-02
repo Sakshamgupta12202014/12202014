@@ -7,7 +7,6 @@ import { useSelector, useDispatch } from "react-redux";
 const baseURL = import.meta.env.VITE_BACKEND_URL;
 
 function Header() {
-
   const isAuthenticated = useSelector((state) => state.isAuthenticated);
 
   const navItems = [
@@ -15,6 +14,7 @@ function Header() {
     { name: "Short url", path: "/urlshortener", isAuth: isAuthenticated },
     { name: "Login", path: "/login", isAuth: !isAuthenticated },
     { name: "Sign Up", path: "/signup", isAuth: !isAuthenticated },
+    { name: "Profile", path: "/profile", isAuth: isAuthenticated },
   ];
 
   return (
