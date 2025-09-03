@@ -10,8 +10,28 @@ function UserProfile() {
   const [downloadURL, setDownloadURL] = useState("");
 
   useEffect(() => {
-    // on login fetch user profile image
+    const fetchCurrentUser = async () => {
+      await axios
+        .get(`${baseURL}/api/user/fetchCurrentUser`, { withCredentials: true })
+        .then((response) => {
+          if (response.data.authenticated === false) {
+            return null;
+          } else {
+            dispatch(
+              login({ user: response.data.user, urls: response.data.urls })
+            );
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
 
+    fetchCurrentUser();
+  }, []);
+
+  useEffect(() => {
+    // on login fetch user profile image
     async function fetchUserProfile() {
       try {
         const response = await axios.get(`${baseURL}/api/profile/getProfile`, {
@@ -75,14 +95,14 @@ function UserProfile() {
 
       <img className="user-avatar" src={downloadURL} alt="User Avatar" />
 
-        <form onSubmit={handleSubmit}>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setImg(e.target.files[0])}
-          />
-          <button type="submit">Upload</button>
-        </form>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setImg(e.target.files[0])}
+        />
+        <button type="submit">Upload</button>
+      </form>
     </div>
   );
 }
