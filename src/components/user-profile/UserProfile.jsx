@@ -3,11 +3,16 @@ import "./UserProfile.css";
 import axios from "axios";
 import defaultAvatar from "./default-profile-image.png";
 
+import { useSelector, useDispatch } from "react-redux";
+import { login, logout } from "../../store/userSlice.js";
+
 const baseURL = import.meta.env.VITE_BACKEND_URL;
 
 function UserProfile() {
   const [img, setImg] = useState("");
   const [downloadURL, setDownloadURL] = useState("");
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
